@@ -97,7 +97,6 @@ class DList {
         void del_item(int n)
         {
             ListItem * item = first;
-            ListItem * prev = NULL;
             while(item != NULL)
             {
                 if(item->value == n)
@@ -105,14 +104,13 @@ class DList {
                     if(item == first)
                         first = item->next;
                     else
-                        prev->next = item->next;
+                        item->prev->next = item->next;
                     if(item == last)
-                        last = prev;
+                        last = item->prev;
                     delete item;
                     count--;
                     return;
                 }
-                prev = item;
                 item = item->next;
             }
         }
@@ -148,6 +146,3 @@ int main()
         
      return 0;
 }    
-        
-        
-                
