@@ -107,6 +107,8 @@ class DList {
                         item->prev->next = item->next;
                     if(item == last)
                         last = item->prev;
+                    else
+                        item->next->prev = item->prev;
                     delete item;
                     count--;
                     return;
@@ -127,6 +129,7 @@ int main()
     list.add(2);
     list.add(1);
     list.add(5);
+    list.add(8);
     list.print();
     list.print_back();
     cout << list.get_count() << endl;
@@ -141,6 +144,7 @@ int main()
     int del_num;
     cin >> del_num;
     list.del_item(del_num);
+    list.print_back();
     list.print();
     cout << list.get_count() << endl;
         
