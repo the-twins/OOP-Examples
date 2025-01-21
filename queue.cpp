@@ -54,21 +54,16 @@ class Queue {
 
             int dequeue()
             {
+                if (!count)
+                    throw "Queue is empty.";
                 QueueItem * item = first;
-                int value = 0;
-                value = item->value;
+                int value = item->value;
                 if(count == 1)
                     first = last = NULL;
-                if(count == 2)
-                {
-                    first = item->next;
-                    last = NULL;
-                }
                 else
                     first = item->next;
                 delete item;
-                count--;
-                
+                count--;                
                 return value;
             }
 
@@ -79,12 +74,14 @@ class Queue {
             
             int peek()
             {
-                QueueItem * item = first;
-                return item->value;
+                if (!count)
+                    throw "Queue is empty.";
+                return first->value;
             }
 };
 
-int main()
+
+void test_queue()
 {
     Queue queue;
     queue.enqueue(1);
@@ -102,7 +99,23 @@ int main()
     cout << "Deleted: " << queue.dequeue() << endl;
     cout << "Deleted: " << queue.dequeue() << endl;
     cout << queue.peek() << endl;
-    
-    
+    queue.enqueue(1);
+    cout << "Total " << queue.get_count() << endl;
+    cout << queue.peek() << endl;
+    cout << "Deleted: " << queue.dequeue() << endl;
+    cout << queue.peek() << endl;
+}
+
+int main()
+{
+    try
+    {
+        test_queue();
+    }
+    catch (const char* exp)
+    {
+        cout << exp << endl;
+        return 1;
+    }
     return 0;
 }
