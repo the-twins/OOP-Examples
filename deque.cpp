@@ -18,9 +18,9 @@ class DequeItem {
 };
 
 class Deque {
-        DequeItem * first;
-        DequeItem * last;
-        unsigned int count;
+    DequeItem * first;
+    DequeItem * last;
+    unsigned int count;
         
     public:
         Deque()
@@ -54,8 +54,7 @@ class Deque {
                 fresh->prev = last;
             }
             last = fresh;
-            count++;
-            cout << "Add: " << n << endl; 
+            count++; 
         }
         
         void add_left(int n)
@@ -70,7 +69,6 @@ class Deque {
             }
             first = fresh;
             count++;
-            cout << "Add: " << n << endl; 
         }
         
         int pop()
@@ -82,45 +80,50 @@ class Deque {
             if(count == 1)
                 first = last = NULL;
             else
+            {
                 last = item->prev;
+                last->next = NULL;
+            }
             delete item;
             count--;                
             return value;
         }
             
         int pop_left()
+        {
+            if (!count)
+                throw "Queue is empty.";
+            DequeItem * item = first;
+            int value = item->value;
+            if(count == 1)
+                first = last = NULL;
+            else
             {
-                if (!count)
-                    throw "Queue is empty.";
-                DequeItem * item = first;
-                int value = item->value;
-                if(count == 1)
-                    first = last = NULL;
-                else
-                    first = item->next;
-                delete item;
+                first = item->next;
                 first->prev = NULL;
-                count--;                
-                return value;
             }
+            delete item;
+            count--;                
+            return value;
+        }
 
-            unsigned int get_count()
-            {
-                return count;
-            }
+        unsigned int get_count()
+        {
+            return count;
+        }
             
-            void print()
+        void print()
+        {
+            DequeItem * item = first;
+            while(item != NULL)
             {
-                DequeItem * item = first;
-                while(item != NULL)
-                {
-                    cout << item->value << " ";
-                    item = item->next;
-                }
-                cout << endl;
+                cout << item->value << " ";
+                item = item->next;
             }
+            cout << endl;
+        }
             
-            void print_back()
+        void print_back()
         {
             DequeItem * item = last;
             while(item != NULL)
@@ -136,21 +139,13 @@ void test_deque()
 {
     Deque deque;
     deque.add(1);
-    deque.add(2);
-    cout << "Total " << deque.get_count() << endl;
-    deque.add_left(3);
     deque.add_left(4);
-    cout << "Total " << deque.get_count() << endl;
-    deque.print();
-    deque.print_back();
+    deque.add(7);
+    deque.add_left(4);
     cout << "Deleted: " << deque.pop() << endl;
     cout << "Total " << deque.get_count() << endl;
-    cout << "Deleted: " << deque.pop_left() << endl;
-    deque.add(20);
     deque.print();
     deque.print_back();
-    cout << "Total " << deque.get_count() << endl;
-    cout << "Deleted: " << deque.pop_left() << endl;
     cout << "Deleted: " << deque.pop_left() << endl;
     cout << "Total " << deque.get_count() << endl;
 }
