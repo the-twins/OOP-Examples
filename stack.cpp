@@ -7,6 +7,7 @@ class StackItem
     public:
         int value;
         StackItem * next;
+        
     public:
         StackItem(int n)
         {
@@ -16,19 +17,20 @@ class StackItem
 };
 class Stack
 {
-    StackItem * first;
+    StackItem * top;
     unsigned int count;
     
     public:
         Stack()
         {
-            first = NULL;
+            top = NULL;
             count = 0;
         }
+        
         ~Stack()
         {
             cout << "Calling destructor" << endl;
-            StackItem * item = first;
+            StackItem * item = top;
             StackItem * temp_item;
             while(item != NULL)
             {
@@ -37,15 +39,16 @@ class Stack
                 item = temp_item;
             }
         }
+        
         void push(int numb)
         {
             StackItem * fresh = new StackItem(numb);
-            if(first == NULL)
-                first = fresh;
+            if(top == NULL)
+                top = fresh;
             else
             {
-                fresh->next = first;
-                first = fresh;
+                fresh->next = top;
+                top = fresh;
             }
             count++;
         }
@@ -53,19 +56,11 @@ class Stack
         int pop()
         {
             if (!count)
-                throw "Queue is empty.";
-            StackItem * item = first;
+                throw "Stack is empty.";
+            StackItem * item = top;
             int number = item->value;
-            if(count == 1)
-            {
-                delete item;
-                first = NULL;
-            }
-            else
-            {
-                first = item->next;
-                delete item;
-            }
+            top = item->next;
+            delete item;
             count--;
             return number;
         }
@@ -77,7 +72,7 @@ class Stack
         
         void print()
         {
-            StackItem * item = first;
+            StackItem * item = top;
             while(item != NULL)
             {
                 cout << item->value << " ";
